@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 Send Redis usage metrics to Amazon CloudWatch
 
@@ -54,11 +54,11 @@ def collect_redis_info():
     info = r.info()
     cmd_info = r.info('commandstats')
 
-    return dict(info.items() + cmd_info.items())
+    return dict(list(info.items()) + list(cmd_info.items()))
 
 def send_multi_metrics(instance_id, region, metrics, unit='Count', namespace='EC2/Redis'):
     cw = cloudwatch.connect_to_region(region)
-    cw.put_metric_data(namespace, metrics.keys(), metrics.values(),
+    cw.put_metric_data(namespace, list(metrics.keys()), list(metrics.values()),
         unit=unit, dimensions={"InstanceId": instance_id})
 
 if __name__ == '__main__':
@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     count_metrics['CurrItems'] = sum([value['keys'] for key, value in redis_data.items() if key.startswith('db')])
 
-    for command_group, commands in command_groups.items():
+    for command_group, commands in list(command_groups.items()):
         count_metrics[command_group] = 0
         for command in commands:
             key = 'cmdstat_' + command

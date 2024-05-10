@@ -1,3 +1,6 @@
+* [redis-cloudwatch](./README.md#redis-cloudwatch)
+* [mongo-cloudwatch](./README.md#mongo-cloudwatch)
+
 redis-cloudwatch
 ================
 
@@ -7,7 +10,7 @@ Provides custom metrics for [Redis](http://redis.io) in AWS CloudWatch similar t
 This requires that you have installed [Redis-Py](https://github.com/andymccurdy/redis-py), [Boto](https://github.com/boto/boto) and have created a [Boto configuration file](http://docs.pythonboto.org/en/latest/boto_config_tut.html) with your AWS credentials (~/.boto). You'll want to run this script as a cronjob every minute.
 ## Install
     sudo pip3 install boto redis
-    curl https://raw.githubusercontent.com/happy-tanuki/redis-cloudwatch/master/cw-redis-stats.py | sudo tee /usr/local/bin/cw-redis-stats.py
+    curl https://raw.githubusercontent.com/happy-tanuki/mongo-redis-cloudwatch/master/cw-redis-stats.py | sudo tee /usr/local/bin/cw-redis-stats.py
     sudo chmod +x /usr/local/bin/cw-redis-stats.py
     (crontab -l ; echo "* * * * * /usr/local/bin/cw-redis-stats.py")| crontab -
 
@@ -44,3 +47,29 @@ This requires that you have installed [Redis-Py](https://github.com/andymccurdy/
 |HyperLogLogBasedCmds | The total number of commands that are hyperloglog-based. This is derived from the Redis commandstats statistic by summing all of the commands that act upon one or more hyperloglogs. | Count 
 |ScriptBasedCmds | The total number of commands that are script-based. This is derived from the Redis commandstats  statistic by summing all of the commands that act upon one or more scripts (eval, evalsha, etc). | Count
 
+
+
+mongo-cloudwatch
+================
+
+## About
+Provides custom metrics for [Mongo](https://www.mongodb.com/) in AWS CloudWatch.
+## Prerequsites
+This requires that you have installed [PyMongo](https://pymongo.readthedocs.io/), [Boto](https://github.com/boto/boto) and have created a [Boto configuration file](http://docs.pythonboto.org/en/latest/boto_config_tut.html) with your AWS credentials (~/.boto). You'll want to run this script as a cronjob every minute.
+## Install
+    sudo pip3 install boto pymongo
+    curl https://raw.githubusercontent.com/happy-tanuki/mongo-redis-cloudwatch/master/cw-mongo-stats.py | sudo tee /usr/local/bin/cw-mongo-stats.py
+    sudo chmod 711 /usr/local/bin/cw-mongo-stats.py
+    (crontab -l ; echo "* * * * * /usr/local/bin/cw-mongo-stats.py")| crontab -
+
+
+## Metrics Captured
+| Metric   |  Description | Unit |
+|----------|:-------------|:------|
+| CurrentConn | | Count
+| AvailableConn | | Count
+| CurrentQueue | | Count
+| ActiveClients | | Count
+| ConcurrentWrite | | Count
+| ConcurrentRead | | Count
+| MongoMemory | | Megabytes

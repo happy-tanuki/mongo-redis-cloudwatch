@@ -56,6 +56,14 @@ mongo-cloudwatch
 Provides custom metrics for [Mongo](https://www.mongodb.com/) in AWS CloudWatch.
 ## Prerequsites
 This requires that you have installed [PyMongo](https://pymongo.readthedocs.io/), [Boto](https://github.com/boto/boto) and have created a [Boto configuration file](http://docs.pythonboto.org/en/latest/boto_config_tut.html) with your AWS credentials (~/.boto). You'll want to run this script as a cronjob every minute.
+## mongosh
+    db.createUser({
+        user: "monitor",
+        pwd: "changeme",
+        roles: [
+            "clusterMonitor"
+        ]
+    })
 ## Install
     sudo pip3 install boto pymongo
     curl https://raw.githubusercontent.com/happy-tanuki/mongo-redis-cloudwatch/master/cw-mongo-stats.py | sudo tee /usr/local/bin/cw-mongo-stats.py
